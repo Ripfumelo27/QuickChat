@@ -109,7 +109,7 @@ public class Prog5121_part1 {
         // Simple login validation (in real app, this would check against stored credentials)
         if (!username.isEmpty() && !password.isEmpty()) {
             isLoggedIn = true;
-            System.out.println("Login successful! Welcome back.");
+            System.out.println("Login successful! Welcome to QuickChat.");
             
             // Set maximum number of messages
             setMaxMessages();
