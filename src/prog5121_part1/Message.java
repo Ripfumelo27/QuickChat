@@ -10,22 +10,28 @@ package prog5121_part1;
  */
 
 
-import java.util.UUID;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.UUID;
 
 public class Message {
+
+    static List getSentMessages() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    static int getTotalMessagesSent() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     private String messageID;
     private int messageNumber;
     private String recipient;
     private String messageContent;
     private String messageHash;
-    private static int totalMessagesSent = 0;
-    private static List<Message> sentMessages = new ArrayList<>();
     
     // Constructor
     public Message(int messageNumber, String recipient, String messageContent) {
@@ -40,47 +46,33 @@ public class Message {
         return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
     }
     
-    public boolean checkRecipientNumber(String recipient) {
-        // Check if starts with + and has no more than 15 characters (international format)
-        if (recipient == null || recipient.length() > 15 || !recipient.startsWith("+")) {
+    public static boolean checkRecipientNumber(String recipient) {
+        if (recipient == null || recipient.length() > 15 || recipient.length() < 10) {
             return false;
         }
         
-        // Check if the rest are digits
-        String digits = recipient.substring(1);
-        return digits.matches("\\d+");
+        // Check if starts with + and the rest are digits
+        if (recipient.startsWith("+")) {
+            String digits = recipient.substring(1);
+            return digits.matches("\\d+");
+        }
+        return false;
     }
     
     public String generateMessageHash() {
-        String[] words = messageContent.split("\\s+");
+        if (messageContent == null || messageContent.trim().isEmpty()) {
+            return "MSG#" + messageNumber + "##";
+        }
+        
+        String[] words = messageContent.trim().split("\\s+");
         String firstWord = words.length > 0 ? words[0] : "";
         String lastWord = words.length > 1 ? words[words.length - 1] : firstWord;
         
         return "MSG#" + messageNumber + "#" + firstWord + "#" + lastWord;
     }
     
-    public boolean validateMessageContent(String message) {
+    public static boolean validateMessageContent(String message) {
         return message != null && message.length() <= 250;
-    }
-    
-    public String sendMessageOption(int option) {
-        switch (option) {
-            case 1: // Send Message
-                totalMessagesSent++;
-                sentMessages.add(this);
-                storeMessageInJSON();
-                return "Message successfully sent.";
-                
-            case 2: // Discard Message
-                return "Message discarded.";
-                
-            case 3: // Store Message
-                storeMessageInJSON();
-                return "Message successfully saved.";
-                
-            default:
-                return "Invalid option selected.";
-        }
     }
     
     public void storeMessageInJSON() {
@@ -111,16 +103,11 @@ public class Message {
             }
             
         } catch (IOException e) {
-            System.out.println("Error storing message: " + e.getMessage());
+            javax.swing.JOptionPane.showMessageDialog(null,
+                "Error storing message: " + e.getMessage(),
+                "Storage Error",
+                javax.swing.JOptionPane.ERROR_MESSAGE);
         }
-    }
-    
-    public static List<Message> getSentMessages() {
-        return new ArrayList<>(sentMessages);
-    }
-    
-    public static int getTotalMessagesSent() {
-        return totalMessagesSent;
     }
     
     // Getters
@@ -133,8 +120,12 @@ public class Message {
     @Override
     public String toString() {
         return String.format(
-            "Message ID: %s\nMessage Hash: %s\nRecipient: %s\nMessage: %s",
-            messageID, messageHash, recipient, messageContent
+            "Message Number: %d\nMessage ID: %s\nMessage Hash: %s\nRecipient: %s\nMessage: %s",
+            messageNumber, messageID, messageHash, recipient, messageContent
         );
+    }
+
+    String sendMessageOption(int option) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

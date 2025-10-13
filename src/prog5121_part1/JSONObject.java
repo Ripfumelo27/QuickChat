@@ -10,11 +10,11 @@ package prog5121_part1;
  */
 class JSONObject {
 
-    void put(String messageNumber, int messageNumber0) {
+    void put(String recipient, String recipient0) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    void put(String messageHash, String messageHash0) {
+    void put(String messageNumber, int messageNumber0) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
